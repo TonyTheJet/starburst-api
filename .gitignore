@@ -2,7 +2,8 @@
 /logs/*
 !/logs/README.md
 
-config/
 .idea/
+config/
+tmp/
 
 src/settings.php
