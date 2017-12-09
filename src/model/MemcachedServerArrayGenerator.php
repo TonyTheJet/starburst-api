@@ -8,20 +8,20 @@
 
 namespace App\Model;
 
-use \Slim\App;
+use \Slim\Container;
 
 class MemcachedServerArrayGenerator {
 	/**
-	 * @param App $app
+	 * @param Container $container
 	 *
 	 * @return MemcachedServer[]
 	 */
-	public static function generate_servers_arr_from_app_settings(App $app): array {
+	public static function generate_servers_arr_from_app_settings(Container $container): array {
 		$servers_arr = [];
-		if (!empty($app->getContainer()['cache']) && !empty($app->getContainer()['cache']['servers']))
+		if ( !empty($container['cache']) && !empty($container['cache']['servers']))
 		{
 			$servers_arr = [];
-			foreach ($app->getContainer()['cache']['servers'] as $server_data)
+			foreach ($container['cache']['servers'] as $server_data)
 			{
 				$servers_arr = new MemcachedServer($server_data['server'], $server_data['port'], $server_data['weight']);
 			}
