@@ -18,8 +18,8 @@ $app->get('/{api_name}/[{api_method}]', function (Request $request, Response $re
 				$request,
 				$response,
 				$args,
-				$args['api_name'],
-				\App\Model\MemcachedSingleton::get_instance(\App\Model\MemcachedServerArrayGenerator::generate_servers_arr_from_app_settings($this))
+				\App\Model\MemcachedSingleton::get_instance(\App\Model\MemcachedServerArrayGenerator::generate_servers_arr_from_app_settings($this)),
+				$args['api_name']
 			);
 
 			return $api->call_api_method($args['api_method']);
