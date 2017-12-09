@@ -49,10 +49,17 @@ class MemcachedSingleton {
 	 * @return \Memcached
 	 */
 	public static function get_instance(array $memcached_servers): \Memcached {
-		if (empty(self::$memcached)):
+		if (empty(self::$memcached))
+		{
 			self::$memcached = new \Memcached();
-			self::$memcached->addServers($memcached_servers);
-		endif;
+			$usable_arr = [];
+			foreach ($memcached_servers as $server)
+			{
+				$usable_arr[] = $server->to_array();
+			}
+			self::$memcached->addServers($usable_arr);
+		}
+
 
 		return self::$memcached;
 	}

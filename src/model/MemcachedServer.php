@@ -31,4 +31,16 @@ class MemcachedServer {
 		$this->weight = $weight;
 	}
 
+	/**
+	 * returns it as an array that is usable
+	 * @return array
+	 */
+	public function to_array(): array {
+		return [
+			$this->server,
+			$this->port,
+			$this->weight
+		];
+	}
+
 }

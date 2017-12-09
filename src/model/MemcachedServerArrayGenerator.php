@@ -8,7 +8,9 @@
 
 namespace App\Model;
 
+use Psr\Container\ContainerExceptionInterface;
 use \Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class MemcachedServerArrayGenerator {
 	/**
@@ -18,13 +20,15 @@ class MemcachedServerArrayGenerator {
 	 */
 	public static function generate_servers_arr_from_app_settings(ContainerInterface $container): array {
 		$servers_arr = [];
-		if ( !empty($container['cache']) && !empty($container['cache']['servers']))
-		{
-			$servers_arr = [];
-			foreach ($container['cache']['servers'] as $server_data)
-			{
-				$servers_arr = new MemcachedServer($server_data['server'], $server_data['port'], $server_data['weight']);
+		try {
+			if ( ! empty( $container['settings'] ) && ! empty( $container->get( 'settings' )['cache'] ) ) {
+				$servers_arr = [];
+				foreach ( $container->get( 'settings' )['cache']['servers'] as $server_data ) {
+					$servers_arr[] = new MemcachedServer( $server_data['server'], $server_data['port'], $server_data['weight'] );
+				}
 			}
+		} catch ( NotFoundExceptionInterface $e ) {
+		} catch ( ContainerExceptionInterface $e ) {
 		}
 
 		return $servers_arr;
