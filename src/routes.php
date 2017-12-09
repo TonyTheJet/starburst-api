@@ -14,7 +14,13 @@ $app->get('/{api_name}/[{api_method}]', function (Request $request, Response $re
     if ($response->getStatusCode() === 200)
     {
 		try {
-			$api = \App\Model\ApiFactory::create($request, $response, $args, $args['api_name']);
+			$api = \App\Model\ApiFactory::create(
+				$request,
+				$response,
+				$args,
+				$args['api_name'],
+				\App\Model\MemcachedSingleton::get_instance(\App\Model\MemcachedServerArrayGenerator::generate_servers_arr_from_app_settings($this))
+			);
 
 			return $api->call_api_method($args['api_method']);
 		} catch (\Slim\Exception\NotFoundException $e) {

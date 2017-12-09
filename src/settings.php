@@ -16,6 +16,17 @@ return [
             'level' => \Monolog\Logger::DEBUG,
         ],
 
+	    // cache
+	    'cache' => [
+	    	'servers' => [
+				[
+					'server' => '127.0.0.1',
+					'port' => 11211,
+					'weight' => 0
+				]
+		    ]
+	    ],
+
 	    // database
         'db' => [
 	        'driver' => 'mysql',

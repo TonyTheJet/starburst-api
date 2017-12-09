@@ -27,4 +27,9 @@ require __DIR__ . '/../src/middleware.php';
 require __DIR__ . '/../src/routes.php';
 
 // Run app
-$app->run();
+try {
+	$app->run();
+} catch ( \Slim\Exception\MethodNotAllowedException $e ) {
+} catch ( \Slim\Exception\NotFoundException $e ) {
+} catch ( Exception $e ) {
+}

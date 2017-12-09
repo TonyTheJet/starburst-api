@@ -9,6 +9,12 @@
 		 * @var array
 		 */
 		protected $args;
+
+		/**
+		 * @var \Memcached|null
+		 */
+		protected $cache;
+
 		/**
 		 * @var Request
 		 */
@@ -19,10 +25,11 @@
 		protected $response;
 		// end protected members
 
-		public function __construct(Request $request, Response $response, array $args) {
+		public function __construct(Request $request, Response $response, array $args, \Memcached $cache = null) {
 			$this->request = $request;
 			$this->response = $response;
 			$this->args = $args;
+			$this->cache = $cache;
 		}
 
 
