@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/model/patterns/adapter" isTestSource="false" packagePrefix="App\Model\Patterns\Adapter\" />
       <sourceFolder url="file://$MODULE_DIR$/src/model" isTestSource="false" packagePrefix="App\Model\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/UnitTests" isTestSource="true" packagePrefix="Tests\UnitTests\" />
       <sourceFolder url="file://$MODULE_DIR$/src/model/patterns/factory" isTestSource="false" packagePrefix="App\Model\Patterns\Factory\" />
       <sourceFolder url="file://$MODULE_DIR$/src/middleware" isTestSource="false" packagePrefix="App\Middleware\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />

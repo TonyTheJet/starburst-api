@@ -165,6 +165,7 @@ class Country implements Interfaces\ArrayableInterface {
 	}
 	public function set_name(string $name): void { $this->name = $name; }
 	public function set_native_name(string $native_name): void { $this->native_name = $native_name; }
+	public function set_numeric_code(string $code): void { $this->numeric_code = $code; }
 	public function set_population(int $val): void { $this->population = $val; }
 	public function set_region(string $region): void { $this->region = $region; }
 	public function set_regional_blocs(array $regional_blocs): void { $this->regional_blocs = $regional_blocs; }
@@ -194,8 +195,28 @@ class Country implements Interfaces\ArrayableInterface {
 	// end setters
 
 	// public functions
-	public function from_array( array $data ) {
-		// TODO: Implement from_array() method.
+	/**
+	 * @param array $data
+	 */
+	public function from_array(array $data) {
+		foreach ($data as $property_name => $val)
+		{
+			if (!is_null($val))
+			{
+				if (property_exists($this, $property_name))
+				{
+					try {
+						if (method_exists($this, "set_{$property_name}"))
+						{
+							$this->{"set_" . $property_name}($val);
+						}
+					}
+					catch (Exception $e){
+
+					}
+				}
+			}
+		}
 	}
 
 	/**
