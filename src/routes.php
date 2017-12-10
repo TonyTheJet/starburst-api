@@ -2,7 +2,8 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use \App\Model\MemcachedSingleton;
+use \App\Model\Patterns\Factory\ApiFactory;
+use \App\Model\Patterns\Singleton\MemcachedSingleton;
 
 // Routes
 // the root doesn't resolve to any API
@@ -15,7 +16,7 @@ $app->get('/{api_name}/[{api_method}]', function (Request $request, Response $re
     if ($response->getStatusCode() === 200)
     {
 		try {
-			$api = \App\Model\ApiFactory::create(
+			$api = ApiFactory::create(
 				$request,
 				$response,
 				$args,

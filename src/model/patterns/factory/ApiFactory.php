@@ -1,8 +1,11 @@
 <?php
-	namespace App\Model;
+	namespace App\Model\Patterns\Factory;
 	use \Slim\Exception\NotFoundException;
 	use \Slim\Http\Request;
 	use \Slim\Http\Response;
+	use \App\Model\Api;
+	use \App\Model\ApiCountryData;
+	use \App\Model\ApiSalesTax;
 	class ApiFactory {
 
 		// private constants
@@ -14,6 +17,7 @@
 		 * @param Request $request
 		 * @param Response $response
 		 * @param array $args
+		 * @param \Memcached $cache
 		 * @param string $api_name
 		 *
 		 * @return Api

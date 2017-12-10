@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bulga
- * Date: 12/9/2017
- * Time: 1:37 PM
- */
+namespace App\Model\Patterns\Singleton;
 
-namespace App\Model;
-
-
+use \App\Model\MemcachedServer;
 class MemcachedSingleton {
 
 	// static instance
