@@ -9,9 +9,10 @@
 namespace Tests\UnitTests;
 use \App\Model\Country;
 use \Exception;
+use \PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-class CountryTest extends \PHPUnit\Framework\TestCase {
+class CountryTest extends TestCase {
 
 	/**
 	 * @dataProvider country_data_provider
@@ -43,7 +44,7 @@ class CountryTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($country->get_population(), $country2->get_population());
 		$this->assertEquals($country->get_region(), $country2->get_region());
 		$this->assertEquals($country->get_regional_blocs(), $country2->get_regional_blocs());
-		$this->assertEquals($country->get_sub_region(), $country2->get_sub_region());
+		$this->assertEquals($country->get_subregion(), $country2->get_subregion());
 		$this->assertEquals($country->get_timezones(), $country2->get_timezones());
 		$this->assertEquals($country->get_top_level_domains(), $country2->get_top_level_domains());
 		$this->assertEquals($country->get_translations(), $country2->get_translations());
@@ -97,7 +98,7 @@ class CountryTest extends \PHPUnit\Framework\TestCase {
 		$country->set_regional_blocs([
 			'Tonythicalia'
 		]);
-		$country->set_sub_region('Tonythican Peninsula South');
+		$country->set_subregion('Tonythican Peninsula South');
 		$country->set_timezones([
 			"UTC-08:00",
 			"UTC-07:00",

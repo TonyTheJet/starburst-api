@@ -2,8 +2,14 @@
 
 namespace App\Model;
 use \Exception;
+use \Memcached;
+use \MongoDB\Client;
 
-class Country implements Interfaces\ArrayableInterface {
+class Country implements Interfaces\ArrayableInterface, Interfaces\Cacheable, Interfaces\DBMappable {
+
+	// private consts
+	private const MEMCACHED_KEY_PREFIX = 'Country_';
+	// end private consts
 
 	// private members
 	/**
@@ -89,7 +95,7 @@ class Country implements Interfaces\ArrayableInterface {
 	/**
 	 * @var string
 	 */
-	private $sub_region;
+	private $subregion;
 	/**
 	 * @var string[]
 	 */
@@ -125,7 +131,7 @@ class Country implements Interfaces\ArrayableInterface {
 	public function get_population(): int { return $this->population; }
 	public function get_region(): string { return $this->region; }
 	public function get_regional_blocs(): array { return $this->regional_blocs; }
-	public function get_sub_region(): string { return $this->sub_region; }
+	public function get_subregion(): string { return $this->subregion; }
 	public function get_timezones(): array { return $this->timezones; }
 	public function get_top_level_domains(): array { return $this->top_level_domains; }
 	public function get_translations(): array { return $this->translations; }
@@ -169,7 +175,7 @@ class Country implements Interfaces\ArrayableInterface {
 	public function set_population(int $val): void { $this->population = $val; }
 	public function set_region(string $region): void { $this->region = $region; }
 	public function set_regional_blocs(array $regional_blocs): void { $this->regional_blocs = $regional_blocs; }
-	public function set_sub_region(string $sub_region): void { $this->sub_region = $sub_region; }
+	public function set_subregion(string $subregion): void { $this->subregion = $subregion; }
 	public function set_timezones(array $timezones): void { $this->timezones = $timezones; }
 	public function set_top_level_domains(array $top_level_domains): void { $this->top_level_domains = $top_level_domains; }
 
@@ -196,6 +202,31 @@ class Country implements Interfaces\ArrayableInterface {
 
 	// public functions
 	/**
+	 * saves the arrayed version of the data to cache; NOTE: requires that alpha3_code is set
+	 * @param Memcached $memcached
+	 * @param int $timeout_seconds
+	 */
+	public function cache(Memcached $memcached, int $timeout_seconds): void {
+		$memcached->set(self::MEMCACHED_KEY_PREFIX . $this->alpha3_code, $this->to_array(), $timeout_seconds);
+	}
+
+	public function delete_from_db(Client $db): bool {
+		// TODO: Implement delete_from_db() method.
+
+		return true;
+	}
+
+	/**
+	 * flushes the data from Memcached
+	 * @param Memcached $cache
+	 *
+	 * @return bool
+	 */
+	public function flush_cache( Memcached $cache ): bool {
+		return $cache->delete(self::MEMCACHED_KEY_PREFIX . $this->alpha3_code);
+	}
+
+	/**
 	 * @param array $data
 	 */
 	public function from_array(array $data) {
@@ -217,6 +248,36 @@ class Country implements Interfaces\ArrayableInterface {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Sets all members from cache; NOTE: requires that alpha3_code is set in order to work properly
+	 * @param Memcached $cache
+	 *
+	 * @return bool
+	 */
+	public function from_cache(Memcached $cache): bool {
+		$country_arr = $cache->get(self::MEMCACHED_KEY_PREFIX . $this->alpha3_code);
+		if (is_array($country_arr) && $country_arr !== false)
+		{
+			$this->from_array($country_arr);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public function insert_into_db(Client $db): bool {
+		// TODO: Implement insert_into_db() method.
+
+		return true;
+	}
+
+	public function save_to_db(Client $db): bool {
+		// TODO: Implement save_to_db() method.
+
+		return true;
 	}
 
 	/**
@@ -244,11 +305,17 @@ class Country implements Interfaces\ArrayableInterface {
 			'population' => $this->population,
 			'region' => $this->region,
 			'regional_blocs' => $this->regional_blocs,
-			'sub_region' => $this->sub_region,
+			'subregion' => $this->subregion,
 			'timezones' => $this->timezones,
 			'top_level_domains' => $this->top_level_domains,
 			'translations' => $this->translations
 		];
+	}
+
+	public function update_in_db(Client $db ): bool {
+		// TODO: Implement update_in_db() method.
+
+		return true;
 	}
 	// end public functions
 }
